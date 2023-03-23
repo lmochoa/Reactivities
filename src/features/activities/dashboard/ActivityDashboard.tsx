@@ -17,7 +17,7 @@ export default observer (function ActivityDashboard() {
     }, [loadActivities])
   
   
-    if (activityStore.loadingInitial) return <LoadingComponent content='Shinagawa Lasik Company Corp.'/>
+    if (activityStore.loadingInitial) return <LoadingComponent content='Shinagawa Lasik Company Corp. Loading Activities...'/>
 
     return (
         <Grid>
