@@ -1,4 +1,5 @@
 import { makeAutoObservable, runInAction } from "mobx";
+// import { history } from "../..";
 import { User, UserFormValues } from "../models/user";
 import agent from "../api/agent";
 import { store } from "./store";
@@ -20,18 +21,7 @@ export default class UserStore {
             const user = await agent.Account.login(creds);
             store.commonStore.setToken(user.token);
             runInAction(() => this.user = user);
-            router.navigate('/activities');
-            store.modalStore.closeModal();
-        } catch (error) {
-            throw error;           
-        }
-    }
-
-    register = async (creds: UserFormValues) => {
-        try {
-            const user = await agent.Account.register(creds);
-            store.commonStore.setToken(user.token);
-            runInAction(() => this.user = user);
+            // history.push('/activities');
             router.navigate('/activities');
             store.modalStore.closeModal();
         } catch (error) {
@@ -42,9 +32,22 @@ export default class UserStore {
     logout = () => {
         store.commonStore.setToken(null);
         this.user = null;
-        router.navigate('/');
+        // history.push('/');
+         router.navigate('/');
     }
 
+    register = async (creds: UserFormValues) => {
+        try {
+            const user = await agent.Account.register(creds);
+            store.commonStore.setToken(user.token);
+            runInAction(() => this.user = user);
+            // history.push('/activities');
+             router.navigate('/activities');
+            store.modalStore.closeModal();
+        } catch (error) {
+            throw error;           
+        }
+    }
     getUser = async () => {
         try {
             const user = await agent.Account.current();
@@ -52,5 +55,9 @@ export default class UserStore {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    setImage = (image: string) => {
+        if(this.user) this.user.image = image;
     }
 }
