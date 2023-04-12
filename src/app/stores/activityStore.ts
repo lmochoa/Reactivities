@@ -9,7 +9,7 @@ import { Profile } from "../models/profile";
 
 export default class ActivityStore {
     activityRegistry = new Map<string, Activity>();
-    selectedActivity: Activity | undefined = undefined;
+    selectedActivity?: Activity | undefined = undefined;
     editMode = false;
     loading = false;
     loadingInitial = false;
@@ -183,7 +183,7 @@ export default class ActivityStore {
             try {
                 await agent.Activities.attend(this.selectedActivity!.id);
                 runInAction(() => {
-                    this.selectedActivity!.isCancelled = !this.selectedActivity?.isCancelled;
+                    this.selectedActivity!.isCancelled = !this.selectedActivity!.isCancelled;
                     this.activityRegistry.set(this.selectedActivity!.id, this.selectedActivity!);
                 })
             }catch (error) {
@@ -191,5 +191,9 @@ export default class ActivityStore {
             } finally {
                 runInAction(() => this.loading = false);
             }
+        }
+
+        clearSelectedActivity = () => {
+            this.selectedActivity = undefined;
         }
     }

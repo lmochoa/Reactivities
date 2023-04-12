@@ -14,7 +14,7 @@ export default observer (function ActivityDashboard() {
     
     useEffect(() => {
      if (activityRegistry.size <= 1) loadActivities();
-    }, [loadActivities])
+    }, [activityRegistry.size, loadActivities])
   
   
     if (activityStore.loadingInitial) return <LoadingComponent content='Shinagawa Lasik Company Corp. Loading Activities...'/>
